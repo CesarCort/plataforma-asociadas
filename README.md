@@ -1,50 +1,76 @@
-# React + TypeScript + Vite
+# WIM Perú - Plataforma de Gestión
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma web para la gestión de membresías, eventos y beneficios de WIM Perú (Women in Mining).
 
-Currently, two official plugins are available:
+## 🚀 Tecnologías
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React + TypeScript
+- Vite
+- Tailwind CSS
+- Shadcn/ui
+- React Router DOM
 
-## Expanding the ESLint configuration
+## ⚙️ Requisitos
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Node.js 16.x o superior
+- npm 8.x o superior
 
-- Configure the top-level `parserOptions` property like this:
+## 🛠️ Instalación
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. Clonar el repositorio:
+```bash
+git clone [url-del-repositorio]
+cd plataforma
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+2. Instalar dependencias:
+```bash
+npm install
 ```
+
+3. Iniciar servidor de desarrollo:
+```bash
+npm run dev
+```
+
+La aplicación estará disponible en `http://localhost:5173`
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── components/         # Componentes reutilizables
+│   ├── ui/            # Componentes de UI (shadcn)
+│   ├── layout/        # Componentes de layout
+│   └── lib/           # Utilidades y helpers
+├── layouts/           # Layouts de la aplicación
+├── pages/             # Páginas de la aplicación
+│   ├── auth/          # Páginas de autenticación
+│   ├── dashboard/     # Páginas del dashboard
+│   └── settings/      # Páginas de configuración
+└── App.tsx            # Componente principal y rutas
+```
+
+## 🎨 Estilos y Componentes
+
+El proyecto utiliza shadcn/ui para componentes base. Para instalar nuevos componentes:
+
+```bash
+npx shadcn-ui@latest add [nombre-componente]
+o
+npx shadcn add [nombre-componente]
+```
+
+## 🔄 Scripts Disponibles
+
+- `npm run dev`: Inicia el servidor de desarrollo
+- `npm run build`: Construye la aplicación para producción
+- `npm run lint`: Ejecuta el linter
+- `npm run preview`: Previsualiza la build de producción
+
+## 📝 Convenciones
+
+- Usar rutas relativas para importaciones
+- Seguir la estructura de componentes de shadcn/ui
+- Mantener consistencia con las variables CSS definidas
+- Utilizar Tailwind para estilos
