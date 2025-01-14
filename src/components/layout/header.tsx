@@ -14,8 +14,7 @@ import {
   Settings, 
   Sparkles, 
   Calendar, 
-  LogOut,
-  ChevronDown 
+  LogOut
 } from "lucide-react"
 
 export function Header() {

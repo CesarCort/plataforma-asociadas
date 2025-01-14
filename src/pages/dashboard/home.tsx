@@ -10,8 +10,7 @@ import {
   Calendar,
   BookOpen,
   Users,
-  ChevronRight,
-  Download
+  ChevronRight
 } from "lucide-react"
 
 export default function HomePage() {
