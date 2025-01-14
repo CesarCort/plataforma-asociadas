@@ -81,7 +81,7 @@ export default function LoginPage() {
             </div>
             <div className="text-sm text-muted-foreground text-center">
               ¿Aún no eres miembro? {" "}
-              <a href="/registro" className="text-primary hover:underline">
+              <a href="/signup/" className="text-primary hover:underline">
                 Únete a WIM Perú
               </a>
             </div>
