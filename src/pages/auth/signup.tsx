@@ -81,8 +81,10 @@ function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50 border-b">
       <div className="container mx-auto">
-        <div className="flex h-16 items-center justify-between">
-          <img src={logoWhite} alt="WIM Perú" className="h-8" />
+        <div className="flex h-16 items-center justify-between px-4 md:px-0">
+          <Link to="/login">
+            <img src={logoWhite} alt="WIM Perú" className="h-8" />
+          </Link>
           <Link to="/login">
             <Button variant="outline" className="font-normal">
               Iniciar sesión
