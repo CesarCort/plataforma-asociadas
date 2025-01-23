@@ -12,9 +12,6 @@ import { Upload } from 'lucide-react'
 import Cropper from 'react-easy-crop'
 import type { Area, Point } from 'react-easy-crop'
 
-// Aserción de tipo para el componente Cropper
-const CropperComponent = Cropper as any
-
 interface ImageEditorProps {
   onImageSave: (file: File) => Promise<void>
 }
@@ -152,7 +149,7 @@ export function ImageEditor({ onImageSave }: ImageEditorProps) {
           <div className="space-y-4">
             {imgSrc && (
               <div className="relative h-[500px]">
-                <CropperComponent
+                <Cropper
                   image={imgSrc}
                   crop={crop}
                   zoom={zoom}
