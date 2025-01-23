@@ -12,9 +12,9 @@ import {
   ChevronRight,
   ChevronLeft,
 } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 import { recentMembers, upcomingEvents, highlightedBenefits } from "../../data/dashboard"
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false)
@@ -34,6 +34,7 @@ function useIsMobile() {
 }
 
 export default function HomePage() {
+  const navigate = useNavigate()
   const isMobile = useIsMobile()
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [currentBenefitIndex, setCurrentBenefitIndex] = useState(0);
@@ -84,18 +85,23 @@ export default function HomePage() {
 
           <div className="py-8 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-8">
             {/* Asociadas que se han unido últimamente */}
-            <section className="space-y-4">
+            <section className="space-y-4 overflow-hidden">
               <h2 className="text-xl lg:text-2xl font-semibold tracking-tight">¡Asociadas que se han unido últimamente!</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                {recentMembers.map((member) => (
-                  <div key={member.id} className="flex flex-col items-center space-y-2">
-                    <Avatar className="w-16 lg:w-24 h-16 lg:h-24">
-                      <AvatarImage src={member.avatar} />
-                      <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                    </Avatar>
-                    <div className="text-center">
-                      <p className="font-medium text-sm lg:text-base">{member.name}</p>
-                      <p className="text-xs lg:text-sm text-muted-foreground">{member.role}</p>
+              <div className="flex lg:grid lg:grid-cols-5 gap-4 overflow-x-auto pb-4 lg:pb-0 snap-x snap-mandatory">
+                {recentMembers.slice(0, 5).map((member) => (
+                  <div key={member.id} className="flex-none w-[200px] lg:w-auto snap-start">
+                    <div className="bg-white rounded-xl p-3 shadow-sm border">
+                      <div className="aspect-square w-full mb-3 rounded-lg overflow-hidden">
+                        <img 
+                          src={member.avatar} 
+                          alt={member.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="text-center">
+                        <p className="font-medium text-base text-gray-900 truncate">{member.name}</p>
+                        <p className="text-sm text-gray-500">{member.role}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -123,7 +129,12 @@ export default function HomePage() {
                   >
                     <ChevronRight className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost">Ver todos</Button>
+                  <Button 
+                    variant="ghost"
+                    onClick={() => navigate('/events')}
+                  >
+                    Ver todos
+                  </Button>
                 </div>
               </div>
               
@@ -172,7 +183,12 @@ export default function HomePage() {
                   >
                     <ChevronRight className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost">Ver todos</Button>
+                  <Button 
+                    variant="ghost"
+                    onClick={() => navigate('/benefits')}
+                  >
+                    Ver todos
+                  </Button>
                 </div>
               </div>
 
@@ -211,18 +227,30 @@ export default function HomePage() {
                 {[1, 2].map((i) => (
                   <Card key={i} className="flex-shrink-0">
                     <CardContent className="pt-6">
-                      <div className="flex flex-col md:flex-row gap-4">
+                      <div className="flex gap-4">
                         <img 
                           src="/images/learning-resource.jpg" 
                           alt="Recurso de aprendizaje" 
-                          className="w-full md:w-32 h-32 object-cover rounded-lg"
+                          className="w-20 h-20 lg:w-32 lg:h-32 object-cover rounded-lg shrink-0"
                         />
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-lg mb-2">9 Historias de perseverancia</h3>
-                          <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-base lg:text-lg mb-2 truncate">9 Historias de perseverancia</h3>
+                          <p className="text-sm text-muted-foreground mb-2 lg:mb-4 line-clamp-2 lg:line-clamp-3">
                             Con nuestro objetivo de visibilizar a trayectoria de mujeres mineras te traemos estas historias y logros...
                           </p>
-                          <Button variant="outline">Ver más</Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="lg:hidden"
+                          >
+                            Ver más
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            className="hidden lg:inline-flex"
+                          >
+                            Ver más
+                          </Button>
                         </div>
                       </div>
                     </CardContent>

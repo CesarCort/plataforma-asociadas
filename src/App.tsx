@@ -14,7 +14,7 @@ function App() {
         {/* Rutas públicas */} 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/recuperar" element={<RecoverPage />} />
+        <Route path="/recovery" element={<RecoverPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/events" element={<EventsPage />} />

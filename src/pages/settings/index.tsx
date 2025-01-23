@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card"
 import { Header } from "../../components/layout/header"
@@ -7,9 +8,32 @@ import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
 import { Badge } from "../../components/ui/badge"
 import { Separator } from "../../components/ui/separator"
-import { Download, Calendar, Gift, History, ArrowUpRight } from "lucide-react"
+import { Download, Calendar, Gift, History, ArrowUpRight, Info, AlertTriangle } from "lucide-react"
+import { ProfileSettings } from "./profile"
+import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../components/ui/dialog"
 
 export default function SettingsPage() {
+  const [isChangingEmail, setIsChangingEmail] = useState(false)
+  const [newEmail, setNewEmail] = useState("")
+  const [showVerification, setShowVerification] = useState(false)
+  const [verificationCode, setVerificationCode] = useState("")
+
+  const handleEmailChange = () => {
+    if (!showVerification) {
+      // Aquí iría la lógica para enviar el código de verificación
+      setShowVerification(true)
+    } else {
+      // Aquí iría la lógica para verificar el código
+      if (verificationCode.length === 6) {
+        // Verificar código y actualizar email
+        setIsChangingEmail(false)
+        setShowVerification(false)
+        setVerificationCode("")
+      }
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -29,90 +53,176 @@ export default function SettingsPage() {
 
               <Separator className="my-6" />
 
-              <Tabs defaultValue="profile" className="space-y-6">
+              <Tabs defaultValue="perfil" className="space-y-6">
                 <TabsList>
-                  <TabsTrigger value="profile">Perfil</TabsTrigger>
-                  <TabsTrigger value="account">Cuenta</TabsTrigger>
-                  <TabsTrigger value="membership">Membresía</TabsTrigger>
-                  <TabsTrigger value="journey">Mi Trayectoria</TabsTrigger>
+                  <TabsTrigger value="perfil">Perfil</TabsTrigger>
+                  <TabsTrigger value="cuenta">Cuenta</TabsTrigger>
+                  <TabsTrigger value="membresia">Membresía</TabsTrigger>
+                  <TabsTrigger value="trayectoria">Mi trayectoria</TabsTrigger>
                 </TabsList>
 
-                {/* Tab de Perfil */}
-                <TabsContent value="profile" className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Perfil Público</CardTitle>
-                      <CardDescription>
-                        Esta información será visible para otros miembros.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="name">Nombre Completo</Label>
-                          <Input id="name" placeholder="María García" />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="bio">Biografía</Label>
-                          <textarea 
-                            id="bio" 
-                            className="min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                            placeholder="Cuéntanos sobre ti..."
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>Enlaces</Label>
-                          <div className="space-y-2">
-                            <Input placeholder="LinkedIn" />
-                            <Input placeholder="Sitio Web" />
-                          </div>
-                          <Button variant="outline" size="sm">Agregar Enlace</Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                <TabsContent value="perfil">
+                  <ProfileSettings />
                 </TabsContent>
+                
+                <TabsContent value="cuenta">
+                  <div className="space-y-6">
+                    {/* Email con verificación */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Correo electrónico</CardTitle>
+                        <CardDescription>
+                          Actualiza tu dirección de correo electrónico
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {!isChangingEmail ? (
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div className="space-y-1">
+                                <Label>Correo actual</Label>
+                                <p className="text-sm text-muted-foreground">usuario@ejemplo.com</p>
+                              </div>
+                              <Button 
+                                variant="outline"
+                                onClick={() => setIsChangingEmail(true)}
+                              >
+                                Cambiar email
+                              </Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            {!showVerification ? (
+                              <div className="space-y-4">
+                                <div className="space-y-2">
+                                  <Label>Nuevo correo electrónico</Label>
+                                  <Input 
+                                    type="email"
+                                    value={newEmail}
+                                    onChange={(e) => setNewEmail(e.target.value)}
+                                    placeholder="nuevo@ejemplo.com"
+                                  />
+                                </div>
+                                <Alert>
+                                  <Info className="h-4 w-4" />
+                                  <AlertDescription>
+                                    Se enviará un código de verificación a tu nuevo correo electrónico.
+                                  </AlertDescription>
+                                </Alert>
+                              </div>
+                            ) : (
+                              <div className="space-y-4">
+                                <div className="space-y-2">
+                                  <Label>Código de verificación</Label>
+                                  <Input 
+                                    value={verificationCode}
+                                    onChange={(e) => setVerificationCode(e.target.value)}
+                                    placeholder="000000"
+                                    maxLength={6}
+                                  />
+                                </div>
+                                <Alert>
+                                  <Info className="h-4 w-4" />
+                                  <AlertDescription>
+                                    Hemos enviado un código de 6 dígitos a {newEmail}
+                                  </AlertDescription>
+                                </Alert>
+                              </div>
+                            )}
+                            <div className="flex gap-2">
+                              <Button
+                                onClick={handleEmailChange}
+                              >
+                                {showVerification ? 'Verificar código' : 'Enviar código'}
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                onClick={() => {
+                                  setIsChangingEmail(false)
+                                  setShowVerification(false)
+                                  setVerificationCode("")
+                                }}
+                              >
+                                Cancelar
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
 
-                {/* Tab de Cuenta */}
-                <TabsContent value="account" className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Información de Cuenta</CardTitle>
-                      <CardDescription>
-                        Actualiza tu email y contraseña.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div className="space-y-4">
+                    {/* Cambio de contraseña */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Cambiar contraseña</CardTitle>
+                        <CardDescription>
+                          Actualiza tu contraseña para mantener tu cuenta segura
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
                         <div className="space-y-2">
-                          <Label htmlFor="email">Email</Label>
-                          <Input id="email" type="email" placeholder="maria@ejemplo.com" />
+                          <Label htmlFor="current">Contraseña Actual</Label>
+                          <Input id="current" type="password" />
                         </div>
-                        <Separator />
+                        <div className="space-y-2">
+                          <Label htmlFor="new">Nueva Contraseña</Label>
+                          <Input id="new" type="password" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="confirm">Confirmar Contraseña</Label>
+                          <Input id="confirm" type="password" />
+                        </div>
+                        <Button>Actualizar Contraseña</Button>
+                      </CardContent>
+                    </Card>
+
+                    {/* Zona de peligro */}
+                    <Card className="border-destructive">
+                      <CardHeader>
+                        <CardTitle className="text-destructive">Zona de peligro</CardTitle>
+                        <CardDescription>
+                          Acciones irreversibles para tu cuenta
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
                         <div className="space-y-4">
-                          <h4 className="text-sm font-medium">Cambiar Contraseña</h4>
-                          <div className="space-y-2">
-                            <Label htmlFor="current">Contraseña Actual</Label>
-                            <Input id="current" type="password" />
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="new">Nueva Contraseña</Label>
-                            <Input id="new" type="password" />
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="confirm">Confirmar Contraseña</Label>
-                            <Input id="confirm" type="password" />
-                          </div>
-                          <Button>Actualizar Contraseña</Button>
+                          <Alert variant="destructive">
+                            <AlertTriangle className="h-4 w-4" />
+                            <AlertTitle>Desactivar cuenta</AlertTitle>
+                            <AlertDescription>
+                              Al desactivar tu cuenta, esta quedará inaccesible y tus datos no serán utilizados para fines comerciales ni de marketing. Esta acción no elimina tu cuenta, pero la deja en estado inactivo.
+                            </AlertDescription>
+                          </Alert>
+                          
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="destructive">
+                                Desactivar cuenta
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>¿Estás segura de que quieres desactivar tu cuenta?</DialogTitle>
+                                <DialogDescription>
+                                  Esta acción desactivará tu cuenta y todos los servicios asociados. Tus datos se mantendrán seguros y no serán utilizados para ningún fin.
+                                </DialogDescription>
+                              </DialogHeader>
+                              <DialogFooter>
+                                <Button variant="ghost">Cancelar</Button>
+                                <Button variant="destructive">
+                                  Sí, desactivar mi cuenta
+                                </Button>
+                              </DialogFooter>
+                            </DialogContent>
+                          </Dialog>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </TabsContent>
-
-                {/* Tab de Membresía */}
-                <TabsContent value="membership" className="space-y-6">
-                  {/* Información de Membresía Actual */}
+                
+                <TabsContent value="membresia">
                   <Card>
                     <CardHeader>
                       <CardTitle>Membresía Actual</CardTitle>
@@ -155,8 +265,7 @@ export default function SettingsPage() {
                     </CardContent>
                   </Card>
 
-                  {/* Historial de Facturas */}
-                  <Card>
+                  <Card className="mt-6">
                     <CardHeader>
                       <CardTitle>Historial de Facturas</CardTitle>
                     </CardHeader>
@@ -190,10 +299,8 @@ export default function SettingsPage() {
                     </CardContent>
                   </Card>
                 </TabsContent>
-
-                {/* Tab de Trayectoria */}
-                <TabsContent value="journey" className="space-y-6">
-                  {/* Resumen de Participación */}
+                
+                <TabsContent value="trayectoria">
                   <Card>
                     <CardHeader>
                       <CardTitle>Mi Trayectoria en WIM</CardTitle>
@@ -218,7 +325,7 @@ export default function SettingsPage() {
                               </div>
                             </CardContent>
                           </Card>
-
+                          
                           <Card>
                             <CardHeader className="pb-2">
                               <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -250,7 +357,6 @@ export default function SettingsPage() {
                           </Card>
                         </div>
 
-                        {/* Línea de Tiempo */}
                         <div className="space-y-4">
                           <h3 className="font-semibold">Línea de Tiempo</h3>
                           <div className="relative space-y-0 pl-8 before:absolute before:left-[11px] before:top-2 before:h-[calc(100%-16px)] before:w-[2px] before:bg-border">
