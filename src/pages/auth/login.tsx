@@ -4,6 +4,7 @@ import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs"
 import { useNavigate } from "react-router-dom"
+import { DocumentMeta } from "../../components/meta/DocumentMeta"
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -14,6 +15,11 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-background p-8">
+      <DocumentMeta 
+        title="Iniciar Sesión" 
+        description="Inicia sesión en la plataforma de Women in Mining Perú y accede a todos los beneficios exclusivos para asociadas."
+        isPublicPage={true}
+      />
       <div className="container mx-auto max-w-md space-y-8">
         <div className="space-y-2 text-center">
           <h1 className="text-4xl font-bold text-foreground">Plataforma WIM</h1>

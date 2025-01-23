@@ -12,6 +12,7 @@ import { Download, Calendar, Gift, History, ArrowUpRight, Info, AlertTriangle } 
 import { ProfileSettings } from "./profile"
 import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../components/ui/dialog"
+import { DocumentMeta } from "../../components/meta/DocumentMeta"
 
 export default function SettingsPage() {
   const [isChangingEmail, setIsChangingEmail] = useState(false)
@@ -36,6 +37,7 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <DocumentMeta title="Configuración" />
       <Header />
 
       <div className="flex flex-col lg:flex-row">

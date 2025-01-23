@@ -4,6 +4,7 @@ import { Badge } from "../../components/ui/badge"
 import { Header } from "../../components/layout/header"
 import { Sidebar } from "../../components/layout/sidebar"
 import { WelcomeDialog } from "../../components/WelcomeDialog"
+import { DocumentMeta } from "../../components/meta/DocumentMeta"
 import { 
   Crown, 
   Clock, 
@@ -57,6 +58,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <DocumentMeta title="Dashboard" />
       <Header />
       <WelcomeDialog />
 

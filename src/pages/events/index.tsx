@@ -10,6 +10,7 @@ import { CalendarView } from "../../components/events/calendar-view"
 import { useEvents } from "../../hooks/useEvents"
 import { AttendanceModal } from "../../components/events/attendance-modal"
 import { EventDetailsModal } from "../../components/events/event-details-modal"
+import { DocumentMeta } from "../../components/meta/DocumentMeta"
 
 interface Event {
   id: number
@@ -78,6 +79,10 @@ export default function EventsPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <DocumentMeta 
+        title="Eventos" 
+        description="Descubre y participa en los eventos exclusivos para asociadas de WIM PERÚ"
+      />
       <Header />
 
       <div className="flex flex-col lg:flex-row">
