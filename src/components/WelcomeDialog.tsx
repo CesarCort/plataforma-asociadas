@@ -1,7 +1,6 @@
 import * as React from "react"
 import {
   Dialog,
-  DialogTrigger,
   DialogPortal,
   DialogOverlay,
   DialogContent,
@@ -20,27 +19,26 @@ export function WelcomeDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {/* 
-        Botón para abrir el diálogo si lo deseas. Puedes eliminarlo si no lo necesitas.
-      */}
-      <DialogTrigger asChild>
-        <Button>Abrir diálogo</Button>
-      </DialogTrigger>
+      
 
-      {/* 
-        DialogPortal se encarga de montar el contenido en un portal (por defecto, body).
-        Dentro colocamos el Overlay y el Content con su z-index alto (z-50).
-      */}
       <DialogPortal>
-        <DialogOverlay className="bg-black/50 backdrop-blur-sm fixed inset-0 z-50" />
-        
-        {/* 
-          - z-50 para asegurar que esté por encima de otros elementos. 
-          - max-h / overflow-auto para permitir scroll vertical en móviles.
-          - pointer-events-auto para que iOS permita tocar y hacer scroll.
-          - WebkitOverflowScrolling: "touch" para un scroll nativo en iOS.
+        {/*
+          Agregamos 'overscroll-contain' para evitar que el scroll se "escape"
+          al body en iOS y permitirlo dentro del overlay.
         */}
+        <DialogOverlay
+          className="
+            bg-black/50 
+            backdrop-blur-sm 
+            fixed 
+            inset-0 
+            z-50 
+            overscroll-contain
+          "
+        />
+
         <DialogContent
+          // Habilita scroll nativo en iOS
           style={{ WebkitOverflowScrolling: "touch" }}
           className="
             fixed
@@ -56,6 +54,7 @@ export function WelcomeDialog() {
             overflow-x-hidden
             touch-pan-y
             scrolling-touch
+            overscroll-contain
             bg-white
             rounded-lg
             p-6
@@ -63,7 +62,6 @@ export function WelcomeDialog() {
             focus:outline-none
           "
         >
-          {/* Botón para cerrar */}
           <DialogClose
             className="
               absolute
@@ -94,7 +92,6 @@ export function WelcomeDialog() {
             </DialogDescription>
           </DialogHeader>
 
-          {/* Contenido principal */}
           <div className="space-y-6">
             <div className="bg-[#F8F8F8] py-3 px-4 rounded-lg text-center">
               <p className="text-[15px] font-medium">

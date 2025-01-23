@@ -46,7 +46,7 @@ export function Header() {
                   <Sparkles className="mr-2 h-4 w-4" />
                   <span>Beneficios</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/eventos')}>
+                <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/events')}>
                   <Calendar className="mr-2 h-4 w-4" />
                   <span>Eventos</span>
                 </DropdownMenuItem>

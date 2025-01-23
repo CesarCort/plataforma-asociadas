@@ -4,6 +4,8 @@ import SignupPage from "./pages/auth/signup"
 import RecoverPage from "./pages/auth/recover"
 import HomePage from "./pages/dashboard/home"
 import SettingsPage from "./pages/settings"
+import EventsPage from "./pages/events"
+import BenefitsPage from "./pages/benefits"
 
 function App() {
   return (
@@ -15,7 +17,8 @@ function App() {
         <Route path="/recuperar" element={<RecoverPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/settings" element={<SettingsPage />} />
-        
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/benefits" element={<BenefitsPage />} />
         {/* Redirección por defecto */}
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
